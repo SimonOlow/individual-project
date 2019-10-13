@@ -4,16 +4,20 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class UserApplication {
+public class UserApplication  {
 
 	private JFrame frmShawqi;
 	private JTextField textField_Name;
 	private JTextField textField_Password;
+	private User user;//
+	private UserReg userReg;//
+	
 
 	/**
 	 * Launch the application.
@@ -30,6 +34,13 @@ public class UserApplication {
 			}
 		});
 	}
+	public void setuserReg(UserReg userReg) { //
+		this.userReg = userReg;
+	}
+	public UserReg getuserReg() { //
+		return userReg;
+	}
+	
 
 	/**
 	 * Create the application.
@@ -43,13 +54,13 @@ public class UserApplication {
 	 */
 	private void initialize() {
 		frmShawqi = new JFrame();
-		frmShawqi.setTitle("Shawqi");
+		frmShawqi.setTitle("Todo List Application");
 		frmShawqi.setBounds(100, 100, 450, 300);
 		frmShawqi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmShawqi.getContentPane().setLayout(null);
 		
-		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(82, 99, 61, 16);
+		JLabel lblName = new JLabel("Username");
+		lblName.setBounds(82, 99, 74, 16);
 		frmShawqi.getContentPane().add(lblName);
 		
 		textField_Name = new JTextField();
@@ -60,6 +71,18 @@ public class UserApplication {
 		JButton btnSignIn = new JButton("Sign In");
 		btnSignIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String name = textField_Name.getText();//
+				String password = textField_Password.getText();
+				user = getuserReg().signIn(name, password);
+				if ( user == null) {
+					JOptionPane.showMessageDialog(null, "user not found");
+				}
+				else {
+					WelcomeTodoList welcome = new WelcomeTodoList(userReg,name,password);
+				
+					welcome.setVisible(true);
+					frmShawqi.setVisible(false);//
+				}
 			}
 		});
 		btnSignIn.setBounds(168, 171, 130, 29);
@@ -74,4 +97,8 @@ public class UserApplication {
 		frmShawqi.getContentPane().add(textField_Password);
 		textField_Password.setColumns(10);
 	}
+	public void setVisible (Boolean yes) {//
+		this.frmShawqi.setVisible(yes);
+	}
+
 }

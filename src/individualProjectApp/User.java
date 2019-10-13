@@ -8,6 +8,7 @@ public class User {
 	private String password;
 	private ArrayList<Project> projects = new ArrayList<>();
 	
+	public User() {}
 	public User (String name, String password) {
 		this.setName(name);
 		this.setPassword(password);
@@ -41,7 +42,28 @@ public class User {
 	public void addProject (Project project) {
 		this.getProjects().add(project);
 	}
-	
-
+	// search Project
+	public Project searchProject (String name) {
+		Project tempProject;
+		int i = 0;
+		boolean find = false;
+		int index = -1;
+		
+		while (i < this.getProjects().size() && find == false) {
+			tempProject = this.getProjects().get(i);
+			if (tempProject.getTitle().equals(name)) {
+				index = i;
+				find = true;
+			}
+			i++;
+		}
+		if (index != -1) {
+			tempProject = this.getProjects().get(index);
+		}
+		else {
+			tempProject = null;
+		}
+		return tempProject;
+	}	
 }
 
